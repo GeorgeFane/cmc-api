@@ -10,6 +10,7 @@ tz = timezone('US/Eastern')
 date = lambda: str(datetime.now(tz).date())
 
 CMC = os.getenv('CMC')
+print(CMC)
 url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
 
 parameters = {
@@ -44,4 +45,9 @@ GITHUB = os.getenv('GITHUB')
 g = Github(GITHUB)
 
 repo = g.get_repo("GeorgeFane/cmc-api")
+path = "today.csv"
+contents = repo.get_contents(path, ref='main')
+repo.update_file(
+    path, 'Updated ' + date(), data, contents.sha, branch='main'
+)
 repo.create_file('data/' + date(), date(), data)
